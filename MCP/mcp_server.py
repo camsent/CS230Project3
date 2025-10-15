@@ -9,3 +9,13 @@ async def ping() -> str:
 
 if __name__ == "__main__":
     mcp.run(transport="stdio")
+
+"MCP Tools:"
+"-Task Management"
+"--Create Task"
+"--List Tasks"
+"--Update Task"
+"--Delete Task"
+"-User Management"
+"--Login"
+"--Logout"
