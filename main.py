@@ -2,6 +2,22 @@ from datetime import datetime, timedelta
 import logging
 import json_save
 
+
+# New Stuff
+from BackEnd.database import Base, engine
+
+Base.metadata.create_all(bind=engine)
+
+
+
+
+
+
+
+
+
+
+
 tasks, next_id = [], 1
 
 started = False
