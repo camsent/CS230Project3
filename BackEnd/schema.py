@@ -1,7 +1,8 @@
 from click import Option
 from pydantic import BaseModel, ConfigDict, EmailStr
 from typing import List, Optional
-from datetime import date, datetime, time 
+from datetime import date, datetime, time
+from sqlalchemy import UUID 
 
 
 class UserBase(BaseModel): 
@@ -10,6 +11,7 @@ class UserBase(BaseModel):
 class UserCreate(UserBase): 
     password: str
     
-class TaskBase(BaseModel): 
+class TaskCreate(BaseModel): 
     title: str
     description: str | None
+    user_ids: List[UUID] = []
