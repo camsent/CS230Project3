@@ -15,7 +15,39 @@ async def calendar() -> str:
 @mcp.tool()
 async def list_tasks() -> str:
     """lists all the tasks in date order."""
-    return "Math homework on October 18th, Science homework on October 19th"
+    return """
+        {
+        "tasks": [
+            {
+            "id": "task_001",
+            "description": "Complete project proposal and submit for review",
+            "due_date": "2025-10-31"
+            },
+            {
+            "id": "task_002",
+            "description": "Review team feedback and update documentation",
+            "due_date": "2025-11-05"
+            },
+            {
+            "id": "task_003",
+            "description": "Prepare presentation for stakeholders",
+            "due_date": "2025-11-10"
+            },
+            {
+            "id": "task_004",
+            "description": "Schedule follow-up meeting with client",
+            "due_date": "2025-11-08"
+            }
+        ]
+        }
+    """
+
+@mcp.tool()
+async def display_task() -> str:
+    """Display a single randomly selected task from the task list"""
+    return """
+        { "id": "task_001", "description": "Complete project proposal and submit for review", "due_date": "2025-10-31"}
+    """
 
 if __name__ == "__main__":
     mcp.run(transport="stdio")
