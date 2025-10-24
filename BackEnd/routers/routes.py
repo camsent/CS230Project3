@@ -1,14 +1,17 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Response
+from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from BackEnd.models import User
-from BackEnd.schema import UserCreate
-from BackEnd.database import session
-from BackEnd.auth import hash_password
-from BackEnd.internal import utils
+from BackEnd.schema import UserCreate, UserOut
+from BackEnd.database import Session
+from BackEnd.auth import auth 
+from BackEnd.internal import utils, admin
 
 import uuid
 
+ 
+# TODO: Read session docs on SQLalchemy and get this session thing figured out
   
 router = APIRouter()
 
@@ -18,30 +21,39 @@ def root():
     return {"Hello": "World"}
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
-async def register(user_data: UserCreate):
+def register(user_data: UserCreate):
     data = user_data.model_dump()
     
-    if not data["name"] or not data["password"]: 
+    if not data["username"] or not data["password"]: 
         return HTTPException(status_code=400, detail="Invalid username or password")
     
-    hashed_pw = hash_password(data["password"])
-    user_id = uuid.uuid4()
-
-    try:
-        session.add(User(
-            id=user_id,  
-            name=data["name"],
-            password=hashed_pw,
-        ))
-        session.commit()  
-    except IntegrityError:
-        session.rollback()  # Rollback the failed transaction
-        raise HTTPException(status_code=400, detail="Error: User ID collision, please try again")
-
-    session.close()
     
-    return {"msg": "User registered successfully"}
+    str_password = str(data["password"])
+    print(type(str_password))
+    hashed_pw = auth.hash_password(str_password)
+    user_id  = uuid.uuid4()
+    user_id = str(user_id)
+    
+    with Session() as session:
+        check_username = session.scalars(select(User).where(User.username == data["username"])).first()
+        
+        if check_username: 
+            raise HTTPException(status_code=400, detail="Username already taken")
+        try:
+            new_user = User(
+                id=user_id,
+                username=data["username"],
+                hashed_password=hashed_pw,
+            )
+            session.add(new_user)
+            session.commit()
+            # result = UserCreateOut.model_validate(new_user)
+            result = {"ID: ": user_id, "Username: ": data["username"]}
+        except IntegrityError:
+            session.rollback()
+            raise HTTPException(status_code=400, detail="Error: User ID collision, please try again")
 
+<<<<<<< HEAD
 @router.post("/tasks", status_code=status.HTTP_201_CREATED)
 async def add_task(task_data: TaskCreate, db: Session = Depends(get_db)):
     data = task_data.model_dump()
@@ -70,3 +82,6 @@ async def add_task(task_data: TaskCreate, db: Session = Depends(get_db)):
             "created_at": new_task.created_at,
         }
     }
+=======
+    return result
+>>>>>>> 7c466b8ab26d1daa7a1f3efbd646360460f7b86c
