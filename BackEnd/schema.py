@@ -23,7 +23,7 @@ class UserOutBase(UserBase):
 class AdminUserOut(UserOutBase): 
     Users: List[UserOutBase]
     
-class TaskCreate(BaseModel): 
+class TaskBase(BaseModel): 
     title: str
     description: str | None
 <<<<<<< HEAD
@@ -31,10 +31,25 @@ class TaskCreate(BaseModel):
 =======
     due_date: str
     
+    model_config = ConfigDict(from_attributes=True)
 
-class UserOut(UserBase): 
-    id: UUID
+
+# class UserOut(UserBase): 
+#     id: UUID
+#     Tasks: List[TaskBase]
+    
+#     model_config = ConfigDict(from_attributes=True)
+    
+    
+class TaskCreate(TaskBase): 
+    model_config = ConfigDict(from_attributes=True)
+    
+    
+class TaskOut(TaskBase): 
+    model_config = ConfigDict(from_attributes=True)
+    
+
+class TaskOutAll(BaseModel): 
     Tasks: List[TaskBase]
     
     model_config = ConfigDict(from_attributes=True)
->>>>>>> 7c466b8ab26d1daa7a1f3efbd646360460f7b86c
