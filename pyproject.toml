@@ -4,11 +4,16 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
+
 dependencies = [
-<<<<<<< HEAD
     "flask>=3.1.2",
     "sqlalchemy>=2.0.44",
-=======
-    "mcp>=1.17.0",
->>>>>>> 0f90514e0a97e43b1e2095eb0b0b2da88e2a8782
+    "fastapi[standard]>=0.115.0",
+    "uvicorn>=0.30.0",
+    "passlib[bcrypt]>=1.7.4",
+]
+
+[tool.uv.workspace]
+members = [
+    "BackEnd",
 ]

@@ -1,8 +1,9 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #817bc9;
   margin: 0;
   padding: 0;
+  background: #4e0d6ebe;
+  /*background: radial-gradient(ellipse at center, #6A0F80 5%, #802bf757 60%, #542779 100%);*/
 }
 #root {
   max-width: 1280px;
@@ -35,7 +36,7 @@ body {
 }
 /* From Uiverse.io by alexruix */ 
 .card {
- --background: linear-gradient(to left, #802bf7 0%, #542779 100%);
+ --background: linear-gradient(135deg, #802bf7 30%, #5427799a 70%);
  width: 220px;
  height: 310px;
  padding: 8px;
@@ -48,16 +49,16 @@ body {
 }
 .loginForm {
   margin: 3px;
-  background-color: #817bc936;
-  outline: 4px double #6d1ca722;
-  outline-offset: 0px;
+  background: none;
+  outline: none;
+  box-shadow:inset 2px 5px 10px rgb(91, 17, 187);
   
 }
 .signUpForm{
   margin: 3px;
-  background-color: #817bc936;
-  outline: 4px double #6d1ca722;
-  outline-offset: 0px;
+  background: none;
+  outline: none;
+  box-shadow:inset 2px 5px 10px rgb(91, 17, 187);
 }
 .card-info {
  --color: #13131309;
