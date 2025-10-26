@@ -12,32 +12,17 @@ export async function registerUser(username, password) {
     });
     
     if (!response.ok) {
-        throw new Error ("Registration failed");
+        throw new Error("Registration failed");
     }
     return await response.json();
-};
-
-export async function loginUser(username, password) {
-    const response = await fetch(`${API_URL}/login/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-    });
-    if (!response.ok) {
-        throw new Error ("Login failed");
-    }
-    return await response.json();
-};
+}
 
 function SignUpForm({ onChange }) {
-
     const [error, setError] = useState(null);
     const [data, setData] = useState({
         username: "",
         password: ""
-    })
+    });
 
     useEffect(() => {
         onChange(data);
@@ -45,33 +30,38 @@ function SignUpForm({ onChange }) {
 
     const handleSignUp = async (e) => {
         e.preventDefault();
+        const { username, password } = data;
         try {
-            const data = await signUpUser(username, password);
-            console.log("SignUp successful:", data);
+            const responseData = await registerUser(username, password);
+            console.log("SignUp successful:", responseData);
             alert("SignUp successful!");
+            setError(null);
         } catch (err) {
             setError(err.message);
         }
     }
-  
+
     return (
         <form onSubmit={handleSignUp}>
-            <input className='signUpForm'
+            <input
+                className='signUpForm'
                 type="text"
                 placeholder='Username'
                 value={data.username}
                 onChange={(e) => setData({ ...data, username: e.target.value })}
             />
             <br />
-            <input className='signUpForm'
+            <input
+                className='signUpForm'
                 type="password"
                 placeholder='Password'
                 value={data.password}
                 onChange={(e) => setData({ ...data, password: e.target.value })}
             />
+            <br />
+            
         </form>
-    )    
+    );
 }
 
-
-export default SignUpForm; 
+export default SignUpForm;
