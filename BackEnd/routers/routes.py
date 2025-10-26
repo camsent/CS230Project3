@@ -27,7 +27,7 @@ def root():
 def register(user_data: UserCreate):
     data = user_data.model_dump()
     
-    if not data["name"] or not data["password"]: 
+    if not data["username"] or not data["password"]: 
         return HTTPException(status_code=400, detail="Invalid username or password")
     
     str_password = str(data["password"])
