@@ -47,9 +47,20 @@ def get_month(month: int, year: int):
     end_date = datetime.strptime(f"{year}-{month + 1}-1", FORMAT_CODE) - timedelta(days=1)
     return start_date, end_date
 
+# THIS STUFF IS A CHECK TO MAKE SURE YOU'RE LOGGED IN, BUT IT'S NOT BASED ON THE BACKEND.
+accounts = [{"username" : "Zurite", "password" : "4646"}, {"username" : "Candy", "password" : "2684"}]
+current_login = {"username" : "_not_"}
+
+NO_USER_MESSAGE = "You cannot access the task system without logging in."  
+def user_check():
+    if current_login["username"] == "_not_":
+        return False
+
 # THESE FUNCTIONS ARE BASICALLY FINISHED, THEY ONLY NEED DATA TO BE DIRECTLY FROM THE BACKEND RATHER THAN MY HARDCODED JSON STRING.
 
 def find_date(start_date: datetime, end_date: datetime):
+    if user_check == False:
+        return NO_USER_MESSAGE
     data = open_json(json_string)
     new_data = {"tasks" : []}
     for task in data["tasks"]:
@@ -60,12 +71,16 @@ def find_date(start_date: datetime, end_date: datetime):
     return new_string
 
 def all_tasks():
+    if user_check == False:
+        return NO_USER_MESSAGE
     return json_string
         
 # THIS SECTION DEALS WITH CREATING, DELETING AND UPDATING TASKS. IT REALLY NEEDS BACKEND TO MAKE IT WORK.
 # ALMOST NONE OF THIS CODE IS REALLY USABLE, AS MOST OF IT DEALS WITH UPDATING A RANDOM ASS JSON STRING.
 
 def create_task(description: str, due_date: str):
+    if user_check == False:
+        return NO_USER_MESSAGE
     # ID IS HARDCODED TO 900 HERE, I GUESS ID IS DECIDED BY THE BACKEND?
     global json_string
     data = open_json(json_string)
@@ -78,6 +93,8 @@ def create_task(description: str, due_date: str):
     return "Task created"
 
 def delete_task(search_id: int):
+    if user_check == False:
+        return NO_USER_MESSAGE
     global json_string
     data = open_json(json_string)
     for task in data["tasks"]:
@@ -91,6 +108,8 @@ def delete_task(search_id: int):
     return "No task found with that id"
 
 def update_description(search_id: int, description: str):
+    if user_check == False:
+        return NO_USER_MESSAGE
     global json_string
     data = open_json(json_string)
     for task in data["tasks"]:
@@ -102,9 +121,10 @@ def update_description(search_id: int, description: str):
             #/
             return "Task Updated"
     return "No task found with that id"
-    
 
 def update_date(search_id: int, due_date: str):
+    if user_check == False:
+        return NO_USER_MESSAGE
     global json_string
     data = open_json(json_string)
     for task in data["tasks"]:
@@ -116,3 +136,25 @@ def update_date(search_id: int, due_date: str):
             #/
             return "Task Updated"
     return "No task found with that id"
+
+# THESE ARE THE USER FUNCTIONS, THEY DO BASICALLY NOTHING SINCE I HAVE NO IDEA HOW THIS SYSTEM WORKS.
+# IT SEEMS LIKE A BAD IDEA TO GIVE CLAUDE YOUR PASSWORD LIKE THIS BUT IDK HOW ELSE TO DO THIS.
+
+def check_login():
+    if current_login["username"] == "_not_":
+        return "not currently logged in."
+    else:
+        return "logged in"
+    
+def login(username: str, password: str):
+    global current_login
+    for account in accounts:
+        if username == account["username"] and password == account["password"]:
+            current_login = account
+            return "logged in"
+    return "Incorrect username or password"
+
+def logout():
+    global current_login
+    current_login = {"username" : "_not_"}
+    return "Logged out"

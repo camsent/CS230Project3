@@ -49,28 +49,18 @@ async def delete_task(id: int) -> str:
 
 @mcp.tool()
 async def am_i_logged_in() -> str:
-    """Checks if the MCP server is currently logged into any account. If so, display the username of the account."""
-    return "Not logged in"
+    """Checks if the MCP server is currently logged into any account."""
+    return mcp_helper.check_login()
 
 @mcp.tool()
 async def login_user(username: str, password: str) -> str:
     """Logs into a user account using a provided username and password"""
-    return "User logged in"
+    return mcp_helper.login(username, password)
 
 @mcp.tool()
 async def logout_user() -> str:
     """If the user is logged in, logs out of that account"""
-    return "User logged out"
+    return mcp_helper.logout()
 
 if __name__ == "__main__":
     mcp.run(transport="stdio")
-
-"MCP Tools:"
-"-Task Management"
-"--Create Task"
-"--List Tasks"
-"--Update Task"
-"--Delete Task"
-"-User Management"
-"--Login"
-"--Logout"
