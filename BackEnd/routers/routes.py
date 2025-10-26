@@ -12,9 +12,7 @@ from BackEnd.middleware import check_user
 
 import uuid
 
- 
-# TODO: Read session docs on SQLalchemy and get this session thing figured out
-  
+   
 router = APIRouter()
 
 
