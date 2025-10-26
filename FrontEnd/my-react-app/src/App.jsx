@@ -11,8 +11,6 @@ function App() {
   function handleChange(data) {
     setFormData(data);
   }
-  
-  
 
   return (
     <div style={{ width: '300px', margin: '50px auto', textAlign: 'center'}}>
@@ -29,7 +27,7 @@ function App() {
           )}
 
           <div style={{ marginTop: '20px' }}>
-            <button id="topButton" onClick={handleSubmit}>
+            <button id="topButton" onClick={handleChange}>
               {page === 'login' ? 'Login' : 'Sign Up'}
             </button>
 
