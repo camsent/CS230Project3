@@ -53,7 +53,6 @@ def register(user_data: UserCreate):
             session.rollback()
             raise HTTPException(status_code=400, detail="Error: User ID collision, please try again")
 
-<<<<<<< HEAD
 @router.post("/tasks", status_code=status.HTTP_201_CREATED)
 async def add_task(task_data: TaskCreate, db: Session = Depends(get_db)):
     data = task_data.model_dump()
@@ -82,6 +81,4 @@ async def add_task(task_data: TaskCreate, db: Session = Depends(get_db)):
             "created_at": new_task.created_at,
         }
     }
-=======
     return result
->>>>>>> 7c466b8ab26d1daa7a1f3efbd646360460f7b86c
