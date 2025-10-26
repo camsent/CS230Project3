@@ -3,32 +3,36 @@ from datetime import datetime, timedelta
 
 FORMAT_CODE = "%Y-%m-%d"
 
+# THIS IS MY HARDCODED JSON STRING. THIS FORMAT IS WHAT MY CODE IS EXPECTING, BUT IT CAN BE EASILY CHANGED.
+
 json_string =   """
                     {
                     "tasks": [
                         {
-                        "title": "Project Proposal",
+                        "id": 1,
                         "description": "Complete project proposal and submit for review",
                         "due_date": "2025-10-31"
                         },
                         {
-                        "title": "Review team feedback",
+                        "id": 2,
                         "description": "Review team feedback and update documentation",
                         "due_date": "2025-11-05"
                         },
                         {
-                        "title": "Prepare presentation",
+                        "id": 3,
                         "description": "Prepare presentation for stakeholders",
                         "due_date": "2025-11-10"
                         },
                         {
-                        "id": "Schedule follow-up",
+                        "id": 4,
                         "description": "Schedule follow-up meeting with client",
                         "due_date": "2025-11-08"
                         }
                     ]
                     }
                 """
+
+# THESE FUNCTIONS ARE ESSENTIALLY TOOLS TO MAKE THINGS EASIER FOR ME IN SOME OF THE OTHER FUNCTIONS, THEY ARE FINE.
 
 def open_json(json_input):
     json_object = json.loads(json_input)
@@ -43,6 +47,8 @@ def get_month(month: int, year: int):
     end_date = datetime.strptime(f"{year}-{month + 1}-1", FORMAT_CODE) - timedelta(days=1)
     return start_date, end_date
 
+# THESE FUNCTIONS ARE BASICALLY FINISHED, THEY ONLY NEED DATA TO BE DIRECTLY FROM THE BACKEND RATHER THAN MY HARDCODED JSON STRING.
+
 def find_date(start_date: datetime, end_date: datetime):
     data = open_json(json_string)
     new_data = {"tasks" : []}
@@ -56,12 +62,57 @@ def find_date(start_date: datetime, end_date: datetime):
 def all_tasks():
     return json_string
         
+# THIS SECTION DEALS WITH CREATING, DELETING AND UPDATING TASKS. IT REALLY NEEDS BACKEND TO MAKE IT WORK.
+# ALMOST NONE OF THIS CODE IS REALLY USABLE, AS MOST OF IT DEALS WITH UPDATING A RANDOM ASS JSON STRING.
 
+def create_task(description: str, due_date: str):
+    # ID IS HARDCODED TO 900 HERE, I GUESS ID IS DECIDED BY THE BACKEND?
+    global json_string
+    data = open_json(json_string)
+    task = {"id" : 900, "description" : description, "due_date" : due_date}
+    data["tasks"].append(task)
+    # THIS IS WHERE THE TASK SHOULD ACTUALLY BE ADDED
+    data_string = close_json(data)
+    json_string = data_string
+    #/
+    return "Task created"
 
-def find_title():
-    pass
+def delete_task(search_id: int):
+    global json_string
+    data = open_json(json_string)
+    for task in data["tasks"]:
+        if task["id"] == search_id:
+            data["tasks"].remove(task)
+            # THIS LINE NEEDS TO BE REPLACED WITH A CONNECTION TO BACKEND
+            data_string = close_json(data)
+            json_string = data_string
+            #/
+            return "Task deleted"
+    return "No task found with that id"
 
-start_date = datetime(2025, 11, 5)
-end_date = datetime(2025, 11, 9)
+def update_description(search_id: int, description: str):
+    global json_string
+    data = open_json(json_string)
+    for task in data["tasks"]:
+        if task["id"] == search_id:
+            task["description"] = description
+            # THIS LINE NEEDS TO BE REPLACED WITH A CONNECTION TO BACKEND
+            data_string = close_json(data)
+            json_string = data_string
+            #/
+            return "Task Updated"
+    return "No task found with that id"
+    
 
-find_date(get_month(11, 2025)[0], get_month(11, 2025)[1])
+def update_date(search_id: int, due_date: str):
+    global json_string
+    data = open_json(json_string)
+    for task in data["tasks"]:
+        if task["id"] == search_id:
+            task["due_date"] = due_date
+            # THIS LINE NEEDS TO BE REPLACED WITH A CONNECTION TO BACKEND
+            data_string = close_json(data)
+            json_string = data_string
+            #/
+            return "Task Updated"
+    return "No task found with that id"
