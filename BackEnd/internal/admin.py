@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends, HTTPException, status, Response
 from sqlalchemy import select, delete
 from sqlalchemy.exc import IntegrityError
 from BackEnd.models import User, Active_Session
-from BackEnd.schema import UserOut 
 from BackEnd.database import Session
 
 

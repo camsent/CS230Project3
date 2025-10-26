@@ -3,7 +3,7 @@ from typing import Annotated
 from sqlalchemy import select, update, delete
 from sqlalchemy.exc import IntegrityError
 from BackEnd.models import User, Task, Active_Session
-from BackEnd.schema import UserCreate, UserOut, TaskOut, TaskCreate, TaskOutAll, TaskBase, TaskUpdate
+from BackEnd.schema import UserCreate, TaskOut, TaskCreate, TaskOutAll, TaskBase, TaskUpdate
 from BackEnd.database import Session
 from BackEnd.auth import auth 
 from BackEnd.internal import utils, admin
