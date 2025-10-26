@@ -53,9 +53,9 @@ async def am_i_logged_in() -> str:
     return mcp_helper.check_login()
 
 @mcp.tool()
-async def login_user(username: str, password: str) -> str:
-    """Logs into a user account using a provided username and password"""
-    return mcp_helper.login(username, password)
+async def login_user(username: str) -> str:
+    """Logs into a user account using a provided username"""
+    return mcp_helper.login(username)
 
 @mcp.tool()
 async def logout_user() -> str:

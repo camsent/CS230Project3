@@ -4,7 +4,7 @@
     "My Tasks": {
       "command": "uv",
       "args": [
-        "run", "C:\\Users\\owenp\\OneDrive - The College of Wooster\\Classwork\\(e) Fall 2025\\Software Engineering\\Code\\CS230Project3\\MCP\\mcp_server.py"
+        "run", "C:\\PATH_TO_PROJECT_FOLDER\\CS230Project3\\MCP\\mcp_server.py"
       ]
     }
   }

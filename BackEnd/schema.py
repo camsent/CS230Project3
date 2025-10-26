@@ -18,6 +18,7 @@ class AdminUserOut(UserOutBase):
     Users: List[UserOutBase]
     
 class TaskBase(BaseModel): 
+    id: str
     title: str
     description: str | None
     due_date: str
@@ -44,3 +45,8 @@ class TaskOutAll(BaseModel):
     Tasks: List[TaskBase]
     
     model_config = ConfigDict(from_attributes=True)
+
+class TaskUpdate(BaseModel): 
+    title: str | None
+    description: str | None
+    due_date: str | None
