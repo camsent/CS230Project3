@@ -10,8 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@schedule-x/calendar": "^3.3.0",
+    "@schedule-x/events-service": "^3.3.0",
+    "@schedule-x/react": "^3.3.0",
+    "@schedule-x/theme-default": "^3.3.0",
+    "polyfill": "^0.1.0",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "temporal": "^0.7.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
