@@ -17,14 +17,37 @@ class UserOutBase(UserBase):
 class AdminUserOut(UserOutBase): 
     Users: List[UserOutBase]
     
-class TaskBase(BaseModel): 
+class TaskBase(BaseModel):  
+    id: str 
     title: str
     description: str | None
     due_date: str
     
+    model_config = ConfigDict(from_attributes=True)
 
-class UserOut(UserBase): 
-    id: UUID
+
+# class UserOut(UserBase): 
+#     id: UUID
+#     Tasks: List[TaskBase]
+    
+#     model_config = ConfigDict(from_attributes=True)
+    
+    
+class TaskCreate(TaskBase): 
+    model_config = ConfigDict(from_attributes=True)
+    
+    
+class TaskOut(TaskBase): 
+    model_config = ConfigDict(from_attributes=True)
+    
+
+class TaskOutAll(BaseModel): 
     Tasks: List[TaskBase]
     
     model_config = ConfigDict(from_attributes=True)
+    
+class TaskUpdate(BaseModel):
+    title: str | None
+    description: str | None
+    due_date: str | None
+    
