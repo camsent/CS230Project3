@@ -4,7 +4,7 @@ from sqlalchemy import select, update, delete
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from BackEnd.models import User
-from BackEnd.schema import UserCreate, UserOut
+from BackEnd.schema import UserCreate
 from BackEnd.models import User, Task, Active_Session
 from BackEnd.schema import UserCreate, TaskOut, TaskCreate, TaskOutAll, TaskBase, TaskUpdate
 from BackEnd.database import Session
@@ -24,7 +24,7 @@ def root():
     return {"Hello": "World"}
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
-async def register(user_data: UserCreate):
+def register(user_data: UserCreate):
     data = user_data.model_dump()
     
     if not data["name"] or not data["password"]: 
@@ -55,39 +55,6 @@ async def register(user_data: UserCreate):
         except IntegrityError:
             session.rollback()
             raise HTTPException(status_code=400, detail="Error: User ID collision, please try again")
-
-@router.post("/tasks", status_code=status.HTTP_201_CREATED)
-async def add_task(task_data: TaskCreate, db: Session = Depends(get_db)):
-    data = task_data.model_dump()
-
-    if not data["title"]:
-        raise HTTPException(status_code=400, detail="Task title is required")
-
-    new_task = Task(
-        id=uuid.uuid4(),
-        title=data["title"],
-        description=data.get("description"),
-        user_id=data.get("user_id"),
-    )
-
-    db.add(new_task)
-    db.commit()
-    db.refresh(new_task)
-
-    return {
-        "msg": "Task added successfully",
-        "task": {
-            "id": str(new_task.id),
-            "title": new_task.title,
-            "description": new_task.description,
-            "completed": new_task.completed,
-            "created_at": new_task.created_at,
-        }
-    }
-    return result
-    return result
-
-
 
 @router.post("/login", status_code=status.HTTP_200_OK)
 def login(user_data: UserCreate):

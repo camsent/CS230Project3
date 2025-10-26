@@ -1,5 +1,5 @@
 from typing import List, Dict, Optional
-from sqlalchemy import ForeignKey, String
+from sqlalchemy import ForeignKey, String, DateTime, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from datetime import datetime, timezone
 from BackEnd.database import Base
@@ -30,3 +30,12 @@ class Task(Base):
     
     user: Mapped["User"] = relationship("User", back_populates="tasks")
      
+class Active_Session(Base): 
+    __tablename__ = "sessions"
+    id: Mapped[str] = mapped_column(primary_key=True)
+    user_id: Mapped[str] = mapped_column(primary_key=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    
+    @staticmethod
+    def to_string(id, user_id): 
+        return f"ID: {id}, USER_ID: {user_id}"
