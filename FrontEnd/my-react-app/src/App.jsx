@@ -11,17 +11,7 @@ function App() {
   function handleChange(data) {
     setFormData(data);
   }
-  function handleSubmit() {
-    if (page === 'login') {
-      console.log("Logging in:", formData);
-    } else {
-      if (formData.password !== formData.confirm) {
-        alert("Passwords do not match!");
-        return;
-      }
-      console.log("Signing up:", formData); 
-    }
-  }
+  
   
 
   return (

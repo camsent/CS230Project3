@@ -8,12 +8,14 @@ requires-python = ">=3.11"
 dependencies = [
     "flask>=3.1.2",
     "sqlalchemy>=2.0.44",
-    "fastapi[standard]>=0.115.0",
-    "uvicorn>=0.30.0",
-    "passlib[bcrypt]>=1.7.4",
+    "mcp>=1.17.0",
+    "fastapi[standard]",    
+    "uvicorn>=0.30.0"
 ]
 
 [tool.uv.workspace]
 members = [
     "BackEnd",
 ]
+
+
