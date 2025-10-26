@@ -1,12 +1,9 @@
 from fastapi.middleware.cors import CORSMiddleware
 from BackEnd import app
-from BackEnd.routers import routes as core_routes
-from BackEnd.internal import admin as admin_routes
+from BackEnd.routers import routes
 
 
-app.include_router(core_routes.router)
-app.include_router(admin_routes.router)
-
+app.include_router(routes.router)
 
 
 

@@ -2,14 +2,8 @@ from typing import List, Dict, Optional
 from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from datetime import datetime, timezone
-<<<<<<< HEAD
-import uuid
-=======
 from BackEnd.database import Base
 import uuid
-
->>>>>>> 7c466b8ab26d1daa7a1f3efbd646360460f7b86c
-
 
 
 class User(Base): 

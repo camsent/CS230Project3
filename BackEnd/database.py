@@ -1,19 +1,8 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import DeclarativeBase, sessionmaker
-import os
+from sqlalchemy.orm import declarative_base, sessionmaker
 
-# Make sure "database" folder exists
-os.makedirs(os.path.join(os.path.dirname(__file__), "database"), exist_ok=True)
+engine = create_engine("sqlite:///database/database.db", echo=True)
+Base = declarative_base()
 
-# Absolute path for DB
-db_path = os.path.join(os.path.dirname(__file__), "database", "database.db")
-
-# Engine
-engine = create_engine(f"sqlite:///{db_path}", echo=True)
-
-# Base class
-class Base(DeclarativeBase):
-    pass
-
-# Classic Session
-Session = sessionmaker(engine)
+Session = sessionmaker(bind=engine)
+session = Session()
