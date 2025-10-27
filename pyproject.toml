@@ -15,7 +15,7 @@ dependencies = [
 
 [tool.uv.workspace]
 members = [
-    "BackEnd",
+    "BackEnd"
 ]
 
 

@@ -20,8 +20,7 @@ class AdminUserOut(UserOutBase):
 class TaskBase(BaseModel): 
     id: str
     title: str
-    description: str | None
-    due_date: str
+    due_date: date
     
     model_config = ConfigDict(from_attributes=True)
 

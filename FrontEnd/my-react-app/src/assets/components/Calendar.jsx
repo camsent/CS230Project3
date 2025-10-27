@@ -10,14 +10,14 @@ import { createEventsServicePlugin } from '@schedule-x/events-service'
 import 'temporal-polyfill/global'
 import '@schedule-x/theme-default/dist/index.css'
 
- 
+export const API_URL = 'http://127.0.0.1:8000' 
+
 function CalendarApp() {
    const [eventsService] = useState(() => createEventsServicePlugin());
 
   const [newEvent, setNewEvent] = useState({
     title: '',
-    start: '',
-    end: '',
+    dueDate: '',
   });
 
   const calendar = useCalendarApp({
@@ -31,29 +31,22 @@ function CalendarApp() {
     plugins: [eventsService],
   });
 
-  const handleAddEvent = () => {
-    const { title, start, end } = newEvent;
+  const handleAddEvent = async () => {
+    const { title, dueDate} = newEvent;
 
-    if (!title || !start || !end) {
-      alert('Please enter title, start, and end.');
+    if (!title || !dueDate) {
+      alert('Please enter title and due date');
       return;
     }
 
     try {
-      // Convert datetime-local string (e.g. "2025-10-26T18:30") → Temporal.ZonedDateTime
-      const startPlain = Temporal.PlainDateTime.from(start.length === 16 ? `${start}:00` : start);
-      const endPlain = Temporal.PlainDateTime.from(end.length === 16 ? `${end}:00` : end);
-
-      // Use the local system time zone
-      const tz = Temporal.Now.timeZoneId();
-      const startZoned = startPlain.toZonedDateTime(tz);
-      const endZoned = endPlain.toZonedDateTime(tz);
+      const date = Temporal.PlainDate.from(dueDate);
 
       const eventToAdd = {
         id: String(Date.now()),
         title,
-        start: startZoned,
-        end: endZoned,
+        start: date,
+        end: date,
       };
 
       eventsService.add(eventToAdd);
@@ -65,8 +58,26 @@ function CalendarApp() {
         console.log('Calendar reloaded');
       }
 
+      const dateString = date.toString();
+
+      const response = await fetch(`${API_URL}/task/create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // ✅ sends session cookie
+        body: JSON.stringify({
+        title: eventToAdd.title,
+        start: dateString, // ✅ convert to string
+      }),
+    });
+
+
+    if (!response.ok) throw new Error('Failed to send task');
+
+    const data = await response.json();
+    console.log('Task sent to backend:', data);
+
       // Reset form
-      setNewEvent({ title: '', start: '', end: '' });
+      setNewEvent({ title: '', dueDate: ''});
     } catch (err) {
       console.error('Error adding event:', err);
       alert('Invalid date/time format. Check your start and end values.');
@@ -105,17 +116,9 @@ function CalendarApp() {
         />
 
         <input
-          type="datetime-local"
-          value={newEvent.start}
-          onChange={(e) => setNewEvent({ ...newEvent, start: e.target.value })}
-          style={{ padding: '8px', borderRadius: '6px', border: '1px solid #ccc' }}
-        />
-
-        {/* end datetime */}
-        <input
-          type="datetime-local"
-          value={newEvent.end}
-          onChange={(e) => setNewEvent({ ...newEvent, end: e.target.value })}
+          type="date"
+          value={newEvent.dueDate}
+          onChange={(e) => setNewEvent({ ...newEvent, dueDate: e.target.value })}
           style={{ padding: '8px', borderRadius: '6px', border: '1px solid #ccc' }}
         />
 

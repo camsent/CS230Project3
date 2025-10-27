@@ -51,6 +51,17 @@ def register(user_data: UserCreate):
             session.add(new_user)
             session.commit()
             # result = UserCreateOut.model_validate(new_user)
+
+            sess_id = str(uuid.uuid4())
+            
+            new_session = Active_Session(
+                id = sess_id,
+                user_id = user_id
+            )
+            #session.execute(stmt)
+            session.add(new_session)
+            
+            session.commit()
             result = {"ID: ": user_id, "Username: ": data["username"]}
         except IntegrityError:
             session.rollback()

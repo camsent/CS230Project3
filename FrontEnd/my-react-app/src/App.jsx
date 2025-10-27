@@ -3,6 +3,7 @@ import './App.css'
 import LoginForm from './assets/components/LoginForm.jsx'
 import SignUpForm from './assets/components/SignUpForm.jsx'
 import CalendarApp from './assets/components/Calendar.jsx'
+import Cookies from "js-cookie"
 
 function App() {
   const [page, setPage] = useState('login');
